@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#173b2d" />
+  <title>MessFlow | Smarter Meal Planning</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="MessFlow home">
+        <span class="brand-mark">M</span>
+        <span>
+          <strong>MessFlow</strong>
+          <small>Smarter meal planning</small>
+        </span>
+      </a>
+      <div class="topbar-right">
+        <span id="connectionBadge" class="status-badge demo">Demo mode</span>
+        <button id="themeToggle" class="icon-btn" type="button" aria-label="Toggle theme">◐</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">AWS SERVERLESS MINI PROJECT</span>
+          <h1>Prepare for the people who are actually eating.</h1>
+          <p>
+            Students confirm meals in advance. Mess staff get a live demand estimate,
+            helping reduce avoidable food waste without complicated hardware.
+          </p>
+          <div class="hero-pills">
+            <span>Amazon S3</span>
+            <span>API Gateway</span>
+            <span>AWS Lambda</span>
+            <span>DynamoDB</span>
+          </div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-icon">🍱</div>
+          <p class="impact-label">Tomorrow's goal</p>
+          <h2>Cook closer to demand</h2>
+          <p>Collect intent → aggregate demand → add a small safety buffer.</p>
+          <div class="flow-line">
+            <span>Student</span><b>→</b><span>AWS</span><b>→</b><span>Kitchen</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="tabs" aria-label="MessFlow sections">
+        <button class="tab active" data-tab="student" type="button">Student response</button>
+        <button class="tab" data-tab="admin" type="button">Mess dashboard</button>
+        <button class="tab" data-tab="architecture" type="button">Cloud architecture</button>
+      </nav>
+
+      <section id="studentPanel" class="panel active">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">STUDENT</span>
+            <h2>Will you have this meal?</h2>
+          </div>
+          <p>One response per student, date and meal. Re-submitting updates the existing response.</p>
+        </div>
+
+        <div class="student-grid">
+          <form id="responseForm" class="card form-card">
+            <div class="field">
+              <label for="studentId">Registration number</label>
+              <input id="studentId" name="studentId" type="text" placeholder="e.g. 23BEE101" maxlength="30" required />
+            </div>
+
+            <div class="field">
+              <label for="mealDate">Meal date</label>
+              <input id="mealDate" name="date" type="date" required />
+            </div>
+
+            <div class="field">
+              <label>Meal</label>
+              <div class="choice-row" id="mealChoices">
+                <button class="choice" data-value="breakfast" type="button">☀️ Breakfast</button>
+                <button class="choice" data-value="lunch" type="button">🍛 Lunch</button>
+                <button class="choice active" data-value="dinner" type="button">🌙 Dinner</button>
+              </div>
+              <input id="meal" name="meal" type="hidden" value="dinner" />
+            </div>
+
+            <div class="field">
+              <label>Your response</label>
+              <div class="attendance-choice">
+                <button class="attendance yes" data-value="YES" type="button">
+                  <span class="attendance-icon">✓</span>
+                  <span><strong>Yes, I’m eating</strong><small>Include me in the meal count</small></span>
+                </button>
+                <button class="attendance no" data-value="NO" type="button">
+                  <span class="attendance-icon">×</span>
+                  <span><strong>No, I’ll skip</strong><small>Do not prepare a serving for me</small></span>
+                </button>
+              </div>
+              <input id="response" name="response" type="hidden" required />
+            </div>
+
+            <button id="submitBtn" class="primary-btn" type="submit">
+              <span>Submit response</span>
+              <span>→</span>
+            </button>
+            <p class="form-note">No password is used in this mini-project version. Do not enter sensitive information.</p>
+          </form>
+
+          <aside class="card preview-card">
+            <span class="eyebrow">HOW IT HELPS</span>
+            <h3>From guesswork to a simple demand signal.</h3>
+            <div class="step-list">
+              <div class="step"><span>1</span><div><strong>Students respond</strong><small>Before the meal cutoff.</small></div></div>
+              <div class="step"><span>2</span><div><strong>AWS stores the choice</strong><small>One record per student and meal.</small></div></div>
+              <div class="step"><span>3</span><div><strong>Kitchen sees a count</strong><small>With a small preparation buffer.</small></div></div>
+            </div>
+            <div class="mini-callout">
+              <strong>Example</strong>
+              <p>If 372 students say YES, MessFlow recommends about <b>391 servings</b> using a 5% buffer.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="adminPanel" class="panel">
+        <div class="section-heading admin-heading">
+          <div>
+            <span class="eyebrow">MESS ADMIN</span>
+            <h2>Meal demand dashboard</h2>
+          </div>
+          <div class="dashboard-filters">
+            <input id="adminDate" type="date" aria-label="Summary date" />
+            <select id="adminMeal" aria-label="Summary meal">
+              <option value="breakfast">Breakfast</option>
+              <option value="lunch">Lunch</option>
+              <option value="dinner" selected>Dinner</option>
+            </select>
+            <button id="refreshSummary" class="secondary-btn" type="button">Refresh</button>
+          </div>
+        </div>
+
+        <div class="metrics">
+          <article class="metric-card">
+            <span class="metric-label">Eating</span>
+            <strong id="yesCount">0</strong>
+            <small>students confirmed YES</small>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Skipping</span>
+            <strong id="noCount">0</strong>
+            <small>students confirmed NO</small>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Responses</span>
+            <strong id="totalCount">0</strong>
+            <small>responses received</small>
+          </article>
+          <article class="metric-card accent">
+            <span class="metric-label">Prepare approx.</span>
+            <strong id="servingsCount">0</strong>
+            <small>YES count + 5% buffer</small>
+          </article>
+        </div>
+
+        <div class="dashboard-grid">
+          <article class="card">
+            <div class="card-title-row">
+              <div>
+                <span class="eyebrow">LIVE SNAPSHOT</span>
+                <h3 id="summaryTitle">Dinner demand</h3>
+              </div>
+              <span id="summaryStatus" class="tiny-status">Ready</span>
+            </div>
+
+            <div class="demand-bar-wrap">
+              <div class="demand-bar">
+                <span id="yesBar" class="bar-yes" style="width: 0%"></span>
+                <span id="noBar" class="bar-no" style="width: 0%"></span>
+              </div>
+              <div class="legend">
+                <span><i class="dot yes-dot"></i> Eating <b id="yesPercent">0%</b></span>
+                <span><i class="dot no-dot"></i> Skipping <b id="noPercent">0%</b></span>
+              </div>
+            </div>
+
+            <div class="recommendation">
+              <span class="recommendation-icon">👨‍🍳</span>
+              <div>
+                <small>Kitchen recommendation</small>
+                <p id="recommendationText">Collect responses to generate a preparation recommendation.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="eyebrow">WHY 5%?</span>
+            <h3>Small safety buffer, not overproduction.</h3>
+            <p class="muted">
+              MessFlow uses a deliberately simple formula suitable for a mini-project:
+              confirmed YES responses × 1.05, rounded up.
+            </p>
+            <div class="formula">
+              Recommended servings = ⌈ YES × 1.05 ⌉
+            </div>
+            <p class="muted small">
+              In a real deployment, the buffer could later be tuned using historical wastage and attendance data.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="architecturePanel" class="panel">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">ARCHITECTURE</span>
+            <h2>Four AWS services, one simple flow.</h2>
+          </div>
+          <p>This deliberately avoids unnecessary services so the system stays easy to build and explain.</p>
+        </div>
+
+        <div class="architecture">
+          <div class="aws-node">
+            <span class="node-icon">🌐</span>
+            <strong>Amazon S3</strong>
+            <small>Hosts this HTML, CSS and JavaScript frontend</small>
+          </div>
+          <span class="arrow">→</span>
+          <div class="aws-node">
+            <span class="node-icon">🚪</span>
+            <strong>API Gateway</strong>
+            <small>Exposes POST /response and GET /summary</small>
+          </div>
+          <span class="arrow">→</span>
+          <div class="aws-node">
+            <span class="node-icon">λ</span>
+            <strong>AWS Lambda</strong>
+            <small>Validates requests and calculates the summary</small>
+          </div>
+          <span class="arrow">→</span>
+          <div class="aws-node">
+            <span class="node-icon">🗄️</span>
+            <strong>DynamoDB</strong>
+            <small>Stores student meal responses</small>
+          </div>
+        </div>
+
+        <div class="card architecture-note">
+          <h3>Data model</h3>
+          <code>
+            Partition key: dateMeal = "2026-09-02#dinner"<br/>
+            Sort key: studentId = "23BEE101"<br/>
+            response = "YES"<br/>
+            updatedAt = "2026-09-01T12:30:00Z"
+          </code>
+          <p>
+            Because <b>dateMeal + studentId</b> is unique, the same student can update their answer
+            without creating duplicate records for the same meal.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>MessFlow · Advanced Cloud Computing Mini Project</span>
+      <span>Serverless • Simple • DA-ready</span>
+    </footer>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
