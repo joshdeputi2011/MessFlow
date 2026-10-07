@@ -4,21 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#173b2d" />
-  <title>MessFlow | Smarter Meal Planning</title>
+  <title>Proodle NON VEG Mess</title>
+  <meta name="description" content="Proodle NON VEG Mess monthly menu and meal attendance portal." />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="app-shell">
     <header class="topbar">
-      <a class="brand" href="#" aria-label="MessFlow home">
-        <span class="brand-mark">M</span>
+      <a class="brand" href="#" aria-label="Proodle NON VEG Mess home">
+        <span class="brand-mark">P</span>
         <span>
-          <strong>MessFlow</strong>
-          <small>Smarter meal planning</small>
+          <strong>Proodle NON VEG Mess</strong>
+          <small>Monthly menu + meal attendance</small>
         </span>
       </a>
       <div class="topbar-right">
-        <span id="connectionBadge" class="status-badge demo">Demo mode</span>
         <button id="themeToggle" class="icon-btn" type="button" aria-label="Toggle theme">◐</button>
       </div>
     </header>
@@ -26,34 +26,34 @@
     <main>
       <section class="hero">
         <div class="hero-copy">
-          <span class="eyebrow">AWS SERVERLESS MINI PROJECT</span>
-          <h1>Prepare for the people who are actually eating.</h1>
+          <span class="eyebrow">PROODLE NON VEG MESS</span>
+          <h1>Your mess menu, mapped to every day.</h1>
           <p>
-            Students confirm meals in advance. Mess staff get a live demand estimate,
-            helping reduce avoidable food waste without complicated hardware.
+            Explore the full monthly menu, see today's meals at a glance, and check any date before deciding what to eat.
+            Every breakfast includes an egg item, while non-veg dishes get their own visual highlight.
           </p>
           <div class="hero-pills">
-            <span>Amazon S3</span>
-            <span>API Gateway</span>
-            <span>AWS Lambda</span>
-            <span>DynamoDB</span>
+            <span>🍳 Egg every breakfast</span>
+            <span>🍛 Lunch</span>
+            <span>☕ Snacks</span>
+            <span>🍗 Non-veg highlights</span>
           </div>
         </div>
         <div class="impact-card">
-          <div class="impact-icon">🍱</div>
-          <p class="impact-label">Tomorrow's goal</p>
-          <h2>Cook closer to demand</h2>
-          <p>Collect intent → aggregate demand → add a small safety buffer.</p>
+          <div class="impact-icon">🍽️</div>
+          <p class="impact-label">Today's rhythm</p>
+          <h2>Breakfast → Lunch → Snacks → Dinner</h2>
+          <p>Pick any day from the month and the menu wheel changes instantly.</p>
           <div class="flow-line">
-            <span>Student</span><b>→</b><span>AWS</span><b>→</b><span>Kitchen</span>
+            <span>📅 Date</span><b>→</b><span>🍴 Menu</span><b>→</b><span>😋 Eat well</span>
           </div>
         </div>
       </section>
 
-      <nav class="tabs" aria-label="MessFlow sections">
+      <nav class="tabs" aria-label="Mess sections">
         <button class="tab active" data-tab="student" type="button">Student response</button>
+        <button class="tab" data-tab="menu" type="button">Mess menu</button>
         <button class="tab" data-tab="admin" type="button">Mess dashboard</button>
-        <button class="tab" data-tab="architecture" type="button">Cloud architecture</button>
       </nav>
 
       <section id="studentPanel" class="panel active">
@@ -106,7 +106,7 @@
               <span>Submit response</span>
               <span>→</span>
             </button>
-            <p class="form-note">No password is used in this mini-project version. Do not enter sensitive information.</p>
+            <p class="form-note">No password is used in this version. Do not enter sensitive information.</p>
           </form>
 
           <aside class="card preview-card">
@@ -114,15 +114,118 @@
             <h3>From guesswork to a simple demand signal.</h3>
             <div class="step-list">
               <div class="step"><span>1</span><div><strong>Students respond</strong><small>Before the meal cutoff.</small></div></div>
-              <div class="step"><span>2</span><div><strong>AWS stores the choice</strong><small>One record per student and meal.</small></div></div>
+              <div class="step"><span>2</span><div><strong>The mess keeps the count</strong><small>One record per student and meal.</small></div></div>
               <div class="step"><span>3</span><div><strong>Kitchen sees a count</strong><small>With a small preparation buffer.</small></div></div>
             </div>
             <div class="mini-callout">
               <strong>Example</strong>
-              <p>If 372 students say YES, MessFlow recommends about <b>391 servings</b> using a 5% buffer.</p>
+              <p>If 372 students say YES, the system recommends about <b>391 servings</b> using a 5% buffer.</p>
             </div>
           </aside>
         </div>
+      </section>
+
+      <section id="menuPanel" class="panel">
+        <div class="section-heading menu-heading">
+          <div>
+            <span class="eyebrow">MONTHLY MENU</span>
+            <h2 id="menuMonthTitle">October 2026</h2>
+          </div>
+          <p id="menuSubtitle">Move through the month, then hover a meal slice to reveal the full plate.</p>
+        </div>
+
+        <article class="card menu-explorer">
+          <div class="menu-toolbar">
+            <div>
+              <span class="eyebrow">DATE EXPLORER</span>
+              <h3 id="selectedMenuDate">Wednesday, 7 October</h3>
+            </div>
+            <button id="todayMenuBtn" class="secondary-btn" type="button">Jump to today</button>
+          </div>
+
+          <div class="menu-slider-block">
+            <div class="slider-meta">
+              <span id="sliderStart">1</span>
+              <strong id="sliderDayReadout">DAY 7</strong>
+              <span id="sliderEnd">31</span>
+            </div>
+            <input id="menuDateSlider" class="menu-date-slider" type="range" min="1" max="31" value="7" step="1" aria-label="Choose menu day" />
+          </div>
+
+          <div id="menuDayGrid" class="menu-day-grid" aria-label="Days in the month"></div>
+
+          <div class="daily-menu-layout">
+            <div class="menu-wheel-wrap">
+              <div id="menuWheel" class="menu-wheel" aria-label="Daily meal wheel"></div>
+            </div>
+
+            <aside class="card day-summary-card">
+              <div class="card-title-row">
+                <div>
+                  <span class="eyebrow">DAY AT A GLANCE</span>
+                  <h3 id="daySummaryTitle">Wednesday · 7 October</h3>
+                </div>
+                <span id="weekTypeBadge" class="week-type-badge">ODD WEEK</span>
+              </div>
+              <div id="daySummaryList" class="day-summary-list"></div>
+              <div class="menu-tip">
+                <span>💡</span>
+                <p>Hover a slice on the wheel. Non-veg dishes glow differently, and every breakfast calls out its egg item.</p>
+              </div>
+            </aside>
+          </div>
+        </article>
+
+        <div class="section-heading compact-heading">
+          <div>
+            <span class="eyebrow">WEEKLY PATTERNS</span>
+            <h2>Odd + even weeks</h2>
+          </div>
+          <p>Use these two blocks as the month-wide base pattern. Date-specific overrides can still change any single day.</p>
+        </div>
+
+        <div class="week-pattern-grid">
+          <article class="card week-pattern-card odd-week-card">
+            <div class="week-card-head">
+              <div>
+                <span class="eyebrow">WEEK PATTERN</span>
+                <h3>Odd weeks</h3>
+              </div>
+              <span class="week-type-badge">1 · 3 · 5</span>
+            </div>
+            <div id="oddWeekTable" class="week-table-wrap"></div>
+          </article>
+
+          <article class="card week-pattern-card even-week-card">
+            <div class="week-card-head">
+              <div>
+                <span class="eyebrow">WEEK PATTERN</span>
+                <h3>Even weeks</h3>
+              </div>
+              <span class="week-type-badge">2 · 4</span>
+            </div>
+            <div id="evenWeekTable" class="week-table-wrap"></div>
+          </article>
+        </div>
+
+        <article class="card menu-code-card">
+          <div class="menu-code-head">
+            <div>
+              <span class="eyebrow">MONTHLY MENU CODE</span>
+              <h3>Paste a new Python-style menu code</h3>
+              <p class="muted small">The code below is a simple Python-style dictionary. Apply it to instantly redraw the menu wheel, the day calendar, and the odd/even week tables.</p>
+            </div>
+            <div class="code-actions">
+              <button id="applyMenuCode" class="primary-btn code-btn" type="button"><span>Apply menu code</span><span>↻</span></button>
+              <button id="resetMenuCode" class="secondary-btn" type="button">Reset saved code</button>
+            </div>
+          </div>
+          <textarea id="menuCodeEditor" class="menu-code-editor" spellcheck="false" aria-label="Python-style monthly menu code"></textarea>
+          <div class="code-note">
+            <span>⌘</span>
+            <p><strong>How updates work:</strong> paste your new month code, click <b>Apply menu code</b>, and it stays saved on this device until you replace it with another month/code. For everyone else to see a new public menu, replace the default menu code in <code>app.js</code> and push the change to your GitHub Pages site.</p>
+          </div>
+        </article>
       </section>
 
       <section id="adminPanel" class="panel">
@@ -199,7 +302,7 @@
             <span class="eyebrow">WHY 5%?</span>
             <h3>Small safety buffer, not overproduction.</h3>
             <p class="muted">
-              MessFlow uses a deliberately simple formula suitable for a mini-project:
+              The system uses a deliberately simple formula suitable for a mini-project:
               confirmed YES responses × 1.05, rounded up.
             </p>
             <div class="formula">
@@ -211,61 +314,11 @@
           </article>
         </div>
       </section>
-
-      <section id="architecturePanel" class="panel">
-        <div class="section-heading">
-          <div>
-            <span class="eyebrow">ARCHITECTURE</span>
-            <h2>Four AWS services, one simple flow.</h2>
-          </div>
-          <p>This deliberately avoids unnecessary services so the system stays easy to build and explain.</p>
-        </div>
-
-        <div class="architecture">
-          <div class="aws-node">
-            <span class="node-icon">🌐</span>
-            <strong>Amazon S3</strong>
-            <small>Hosts this HTML, CSS and JavaScript frontend</small>
-          </div>
-          <span class="arrow">→</span>
-          <div class="aws-node">
-            <span class="node-icon">🚪</span>
-            <strong>API Gateway</strong>
-            <small>Exposes POST /response and GET /summary</small>
-          </div>
-          <span class="arrow">→</span>
-          <div class="aws-node">
-            <span class="node-icon">λ</span>
-            <strong>AWS Lambda</strong>
-            <small>Validates requests and calculates the summary</small>
-          </div>
-          <span class="arrow">→</span>
-          <div class="aws-node">
-            <span class="node-icon">🗄️</span>
-            <strong>DynamoDB</strong>
-            <small>Stores student meal responses</small>
-          </div>
-        </div>
-
-        <div class="card architecture-note">
-          <h3>Data model</h3>
-          <code>
-            Partition key: dateMeal = "2026-09-02#dinner"<br/>
-            Sort key: studentId = "23BEE101"<br/>
-            response = "YES"<br/>
-            updatedAt = "2026-09-01T12:30:00Z"
-          </code>
-          <p>
-            Because <b>dateMeal + studentId</b> is unique, the same student can update their answer
-            without creating duplicate records for the same meal.
-          </p>
-        </div>
-      </section>
     </main>
 
     <footer>
-      <span>MessFlow · Advanced Cloud Computing Mini Project</span>
-      <span>Serverless • Simple • DA-ready</span>
+      <span>Proodle NON VEG Mess · Monthly Menu & Meal Attendance</span>
+      <span>Good food. Better planning.</span>
     </footer>
   </div>
 

@@ -1,0 +1,60 @@
+MENU = {
+    'month': 'November',
+    'year': 2026,
+    'odd_week': {
+        'Monday': {
+            'breakfast': {'main': 'Your breakfast', 'egg': 'Your egg item'},
+            'lunch': {'main': 'Your lunch', 'type': 'veg'},
+            'snacks': {'main': 'Your snack', 'type': 'veg'},
+            'dinner': {'main': 'Your dinner', 'type': 'nonveg'}
+        },
+        'Tuesday': {
+            'breakfast': {'main': 'Your breakfast', 'egg': 'Your egg item'},
+            'lunch': {'main': 'Your lunch', 'type': 'veg'},
+            'snacks': {'main': 'Your snack', 'type': 'veg'},
+            'dinner': {'main': 'Your dinner', 'type': 'veg'}
+        },
+        'Wednesday': {
+            'breakfast': {'main': 'Your breakfast', 'egg': 'Your egg item'},
+            'lunch': {'main': 'Your lunch', 'type': 'veg'},
+            'snacks': {'main': 'Your snack', 'type': 'veg'},
+            'dinner': {'main': 'Your dinner', 'type': 'veg'}
+        },
+        'Thursday': {
+            'breakfast': {'main': 'Your breakfast', 'egg': 'Your egg item'},
+            'lunch': {'main': 'Your lunch', 'type': 'veg'},
+            'snacks': {'main': 'Your snack', 'type': 'veg'},
+            'dinner': {'main': 'Your dinner', 'type': 'veg'}
+        },
+        'Friday': {
+            'breakfast': {'main': 'Your breakfast', 'egg': 'Your egg item'},
+            'lunch': {'main': 'Your lunch', 'type': 'nonveg'},
+            'snacks': {'main': 'Your snack', 'type': 'veg'},
+            'dinner': {'main': 'Your dinner', 'type': 'veg'}
+        },
+        'Saturday': {
+            'breakfast': {'main': 'Your breakfast', 'egg': 'Your egg item'},
+            'lunch': {'main': 'Your lunch', 'type': 'veg'},
+            'snacks': {'main': 'Your snack', 'type': 'veg'},
+            'dinner': {'main': 'Your dinner', 'type': 'veg'}
+        },
+        'Sunday': {
+            'breakfast': {'main': 'Your breakfast', 'egg': 'Your egg item'},
+            'lunch': {'main': 'Your lunch', 'type': 'nonveg'},
+            'snacks': {'main': 'Your snack', 'type': 'veg'},
+            'dinner': {'main': 'Your dinner', 'type': 'veg'}
+        }
+    },
+    'even_week': {
+        # Copy the same Monday-Sunday structure here for even weeks.
+    },
+    'overrides': {
+        # Optional single-date overrides:
+        # '2026-11-06': {
+        #     'breakfast': {'main': 'Special Breakfast', 'egg': 'Cheese Omelette'},
+        #     'lunch': {'main': 'Chicken Biryani', 'type': 'nonveg'},
+        #     'snacks': {'main': 'Tea + Samosa', 'type': 'veg'},
+        #     'dinner': {'main': 'Chapati + Paneer', 'type': 'veg'}
+        # }
+    }
+}
